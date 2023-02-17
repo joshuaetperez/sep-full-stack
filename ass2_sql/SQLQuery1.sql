@@ -17,13 +17,14 @@ FROM Production.Product
 GROUP BY ProductSubcategoryID
 
 -- 4.  How many products that do not have a product subcategory.
-SELECT COUNT(*)
+SELECT COUNT(ProductID)
 FROM Production.Product
 WHERE ProductSubcategoryID IS NULL
 
 -- 5.  Write a query to list the sum of products quantity in the Production.ProductInventory table.
 SELECT SUM(Quantity)
 FROM Production.ProductInventory
+GROUP BY ProductID;
 
 -- 6.  Write a query to list the sum of products in the Production.ProductInventory table and LocationID set to 40 and limit the result to include just summarized quantities less than 100.
 --     ProductID    TheSum
@@ -47,6 +48,7 @@ HAVING SUM(Quantity) < 100
 SELECT AVG(Quantity)
 FROM Production.ProductInventory
 WHERE LocationID = 10
+GROUP BY ProductID
 
 -- 9. Write query  to see the average quantity of products by shelf from the table Production.ProductInventory
 --    ProductID   Shelf      TheAvg
@@ -98,13 +100,14 @@ WHERE o.OrderDate > dateadd(YEAR,-25, GETDATE())
 -- 15.  List top 5 locations (Zip Code) where the products sold most.
 SELECT TOP 5 o.ShipPostalCode, SUM(od.Quantity) AS TotalSold
 FROM dbo.Products p INNER JOIN dbo.[Order Details] od ON p.ProductID = od.ProductID INNER JOIN dbo.Orders o ON od.OrderID = o.OrderID
+WHERE o.ShipPostalCode IS NOT NULL
 GROUP BY o.ShipPostalCode
 ORDER BY SUM(od.Quantity) DESC
 
 -- 16.  List top 5 locations (Zip Code) where the products sold most in last 25 years.
 SELECT TOP 5 o.ShipPostalCode, SUM(od.Quantity) AS TotalSold
 FROM dbo.Products p INNER JOIN dbo.[Order Details] od ON p.ProductID = od.ProductID INNER JOIN dbo.Orders o ON od.OrderID = o.OrderID
-WHERE o.OrderDate > dateadd(YEAR,-25, GETDATE())
+WHERE o.ShipPostalCode IS NOT NULL AND o.OrderDate > dateadd(YEAR,-25, GETDATE())
 GROUP BY o.ShipPostalCode
 ORDER BY SUM(od.Quantity) DESC
 
@@ -120,9 +123,10 @@ GROUP BY City
 HAVING COUNT(City) > 2
 
 -- 19.  List the names of customers who placed orders after 1/1/98 with order date.
-SELECT c.ContactName
+SELECT DISTINCT c.ContactName
 FROM dbo.Customers c INNER JOIN dbo.Orders o ON c.CustomerID = o.CustomerID
 WHERE o.OrderDate > '1/1/98'
+-- WHERE OrderDate > '1998-1-1' works too
 
 -- 20.  List the names of all customers with most recent order dates
 SELECT c.ContactName, MAX(o.OrderDate) AS MostRecentOrderDate
@@ -130,15 +134,15 @@ FROM dbo.Customers c INNER JOIN dbo.Orders o ON c.CustomerID = o.CustomerID
 GROUP BY c.ContactName
 
 -- 21.  Display the names of all customers along with the count of products they bought
-SELECT c.ContactName, COUNT(od.ProductID) AS ProductCount
-FROM dbo.Customers c INNER JOIN dbo.Orders o ON c.CustomerID = o.CustomerID INNER JOIN dbo.[Order Details] od ON o.OrderID = od.OrderID
+SELECT c.ContactName, SUM(od.Quantity) AS ProductCount
+FROM dbo.Customers c LEFT JOIN dbo.Orders o ON c.CustomerID = o.CustomerID LEFT JOIN dbo.[Order Details] od ON o.OrderID = od.OrderID
 GROUP BY c.ContactName
 
 -- 22.  Display the customer ids who bought more than 100 Products with count of products.
 SELECT c.CustomerID
 FROM dbo.Customers c INNER JOIN dbo.Orders o ON c.CustomerID = o.CustomerID INNER JOIN dbo.[Order Details] od ON o.OrderID = od.OrderID
 GROUP BY c.CustomerID
-HAVING COUNT(od.ProductID) >  100
+HAVING SUM(od.Quantity) >  100
 
 -- 23.  List all of the possible ways that suppliers can ship their products. Display the results as below
 --    Supplier Company Name       Shipping Company Name
