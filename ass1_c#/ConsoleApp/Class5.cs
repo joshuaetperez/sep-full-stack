@@ -4,9 +4,11 @@
     {
         public static void PrintPyramid()
         {
-            for (int i = 0; i < 5; i++)
+            Console.WriteLine("Enter number of rows for pyramid: ");
+            int numOfRows = int.Parse(Console.ReadLine());
+            for (int i = 0; i < numOfRows; i++)
             {
-                for (int j = 0; j < 4 - i; j++)
+                for (int j = 0; j < numOfRows - i - 1; j++)
                 {
                     Console.Write(" ");
                 }
