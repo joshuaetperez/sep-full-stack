@@ -61,6 +61,12 @@ Console.WriteLine();
 Class9.printUniquePalindromes();
 Console.WriteLine();
 
+// 4)
+Class10.ParseUrl("https://www.apple.com/iphone");
+Class10.ParseUrl("ftp://www.example.com/employee");
+Class10.ParseUrl("https://google.com");
+Class10.ParseUrl("www.apple.com");
+
 
 
 

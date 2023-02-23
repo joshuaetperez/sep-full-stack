@@ -1,7 +1,22 @@
-﻿namespace ConsoleApp
+﻿using System.Text;
+
+namespace ConsoleApp
 {
     public static class Class6
     {
+        public static int findLeftMostElement(int[] arr, List<int> highestFrequencyList)
+        {
+            int leftMostIndex = arr.Length;
+            for (int i = 0; i < highestFrequencyList.Count; i++)
+            {
+                int currentIndex = Array.IndexOf(arr, highestFrequencyList[i]);
+                if (currentIndex < leftMostIndex)
+                {
+                    leftMostIndex = currentIndex;
+                }
+            }
+            return arr[leftMostIndex];
+        }
         public static void PrintMostFrequentNum()
         {
             Console.WriteLine("Enter array of n integers (separated by spaces) to get most frequent number: ");
@@ -13,26 +28,54 @@
                 arr[i] = Convert.ToInt32(stringArr[i]);
             }
 
+            int[] sortedArr = (int[]) arr.Clone();
+            Array.Sort(sortedArr);
+
             int maxCount = 0;
-            int sequenceNum = -1;
-            for (int l = 0; l < arr.Length; l++)
+            List<int> highestFrequencyList = new List<int>();
+            int index = 0;
+            while (index < sortedArr.Length)
             {
                 int currentCount = 1;
-                for (int r = l + 1; r < arr.Length; r++)
+                while (index < sortedArr.Length - 1 && sortedArr[index] == sortedArr[index + 1])
                 {
-                    if (arr[l] == arr[r])
-                    {
-                        currentCount++;
-                    }
+                    currentCount++;
+                    index++;
                 }
+
                 if (currentCount > maxCount)
                 {
                     maxCount = currentCount;
-                    sequenceNum = arr[l];
+                    highestFrequencyList.Clear();
+                    highestFrequencyList.Add(sortedArr[index]);
                 }
+                else if (currentCount == maxCount)
+                {
+                    highestFrequencyList.Add(sortedArr[index]);
+                }
+                index++;
             }
 
-            Console.WriteLine($"The number {sequenceNum} is the most frequent (occurs {maxCount} times)");
+            if (highestFrequencyList.Count == 1)
+            {
+                Console.WriteLine($"The number {highestFrequencyList[0]} is the most frequent (occurs {maxCount} times)");
+            }
+            else
+            {
+                int leftMostElement = findLeftMostElement(arr, highestFrequencyList); 
+                StringBuilder output = new StringBuilder("The numbers ");
+                for (int i = 0; i < highestFrequencyList.Count; i++) { 
+                    if (i != highestFrequencyList.Count - 1)
+                    {
+                        output.Append($"{highestFrequencyList[i]}, ");
+                    }
+                    else
+                    {
+                        output.Append($"and {highestFrequencyList[i]} have the same maximal frequency (each occurs {maxCount} times). The leftmost is {leftMostElement}.");
+                    }
+                }
+                Console.WriteLine(output.ToString());
+            }
         }
     }
 }
