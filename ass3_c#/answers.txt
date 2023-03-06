@@ -56,7 +56,7 @@
 
 11. What accessibility level are members of an interface?
 
-- Any access modifier can be used for the members of an interface, but the default value is "public"
+- Only public (which is the default)
 
 12. True/False. Polymorphism allows derived classes to provide different implementations
 of the same method.
