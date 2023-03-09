@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+footer {
+  background-color: #9acd32;
+  color: #000000;
+  padding: 20px 300px;
+}
+
+p {
+  margin: 0;
+}
+
+h3 {
+  color: #ffa500;
+}
+
+h4 {
+  margin: 0;
+}
+
+.header-container {
+  position: relative;
+}
+
+.header-img {
+  height: 200px;
+  width: 100%;
+}
+
+.header-text {
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+  font-size: 30px;
+  color: white;
+}
+
+.nav-container {
+  background-color: #d3d3d3;
+  /* padding: 10px; */
+}
+
+.navbar {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  text-transform: uppercase;
+  font-weight: bold;
+  border-right: 1px solid #ffffff;
+  padding: 10px 20px;
+}
+
+.navbar a {
+  color: #808080;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+.active {
+  background-color: darkgrey;
+}
+
+.active a {
+  color: white;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 10px 30px;
+}
+
+.first-col {
+  width: 70%;
+}
+
+.second-col {
+  margin-left: 30px;
+  width: 30%;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.welcome-container,
+.free-products-container,
+.news-container,
+.messages-container {
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  padding: 0 20px;
+  padding-bottom: 20px;
+}
+
+.welcome-container {
+  margin-bottom: 20px;
+}
+
+.product-flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-entry {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.product-image-container img {
+  height: 200px;
+  width: 300px;
+}
+
+.product-text-container {
+  padding: 0 20px;
+}
+
+.product-text-container h4 {
+  margin-bottom: 20px;
+}
+
+.news-container {
+  background-color: #d3d3d3;
+  padding: 0 30px;
+  margin-bottom: 20px;
+}
+
+.news-entry {
+  margin-bottom: 20px;
+}
+
+.news-entry a,
+.messages-container a {
+  color: #ffa500;
+}
+
+.message-text {
+  margin-bottom: 20px;
+}
